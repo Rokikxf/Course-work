@@ -1,23 +1,21 @@
 ﻿namespace CourseWork;
 
-public class PlayCommand : ICommand
+public class GameSessionCommand : ICommand
 {
-    private readonly GameFactory _gameFactory;
-    private readonly User _user;
     private readonly IAuthService _authService;
     private readonly IGameService _gameService;
+    private readonly User _user;
 
-    public PlayCommand(User user, IGameService gameService, IAuthService authService)
+    public GameSessionCommand(IAuthService authService, IGameService gameService, User user)
     {
-        _user = user;
-        _gameFactory = new GameFactory(gameService);
         _authService = authService;
         _gameService = gameService;
+        _user = user;
     }
 
     public void Execute()
     {
-        string[] options = { "Training", "Ranked" };
+        string[] options = { "Play game", "View game logs" };
         int selectedIndex = 0;
 
         while (true)
@@ -44,11 +42,16 @@ public class PlayCommand : ICommand
                     selectedIndex = (selectedIndex == options.Length - 1) ? 0 : selectedIndex + 1;
                     break;
                 case ConsoleKey.Enter:
-                    GameType gameType = (selectedIndex == 0) ? GameType.Training : GameType.Ranked;
-                    var game = _gameFactory.CreateGame(gameType);
-                    game.Play(_user);
-                    var gameSessionCommand = new GameSessionCommand(_authService, _gameService, _user);
-                    gameSessionCommand.Execute();
+                    if (selectedIndex == 0)
+                    {
+                        var playCommand = new PlayCommand(_user, _gameService, _authService);
+                        playCommand.Execute();
+                    }
+                    else if (selectedIndex == 1)
+                    {
+                        var viewStatsCommand = new ViewStatsCommand(_gameService, _user);
+                        viewStatsCommand.Execute();
+                    }
                     return;
             }
         }

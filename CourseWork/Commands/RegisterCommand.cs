@@ -1,16 +1,16 @@
 ﻿using CourseWork;
 
-public class RegisterCommand : ICommand
+public class RegisterCommand(IAuthService authService) : ICommand
 {
 
 
     public void Execute()
     {
-        throw new NotImplementedException();
+        Console.WriteLine("Enter your username:");
+        string username = Console.ReadLine();
+        Console.WriteLine("Enter your password:");
+        string password = Console.ReadLine();
+        authService.Register(username, password);
     }
-
-    public void Description()
-    {
-        Console.WriteLine("Register new user");
-    }
+    
 }
