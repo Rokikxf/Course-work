@@ -12,11 +12,6 @@ public class UserRepository(DbContext context): IUserRepository
         return context.Users.Find(u=>u.Username == username);
     }
 
-    public User GetById(int id)
-    {
-        return context.Users.Find(u=>u.Id == id);
-    }
-
     public void AddUser(User user)
     {
         context.Users.Add(user);

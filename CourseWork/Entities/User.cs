@@ -18,7 +18,6 @@ public class User
             _rating = value > 0 ? value : 1;
         }
     }
-
     public List<GameData> GameHistory { get; private set; }
 
     public User(string username, string password)

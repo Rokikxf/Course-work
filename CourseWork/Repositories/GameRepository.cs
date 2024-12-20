@@ -8,8 +8,8 @@ public class GameRepository(DbContext context) : IGameRepository
         context.GameDatas.Add(record);
     }
 
-    public IEnumerable<GameData> GetUserGames(int userId)
+    public IEnumerable<GameData> GetUserGames(string username)
     {
-        return context.GameDatas.FindAll(g => g.User.Id == userId);
+        return context.GameDatas.FindAll(g => g.User.Username == username);
     }
 }

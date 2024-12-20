@@ -3,5 +3,5 @@
 public interface IGameRepository
 {
     void AddGameRecord(GameData record);
-    IEnumerable<GameData> GetUserGames(int userId);
+    IEnumerable<GameData> GetUserGames(string username);
 }

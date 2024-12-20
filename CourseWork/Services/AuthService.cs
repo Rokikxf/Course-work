@@ -6,7 +6,10 @@ public class AuthService(UserRepository userRepository) : IAuthService
     {
         username = username.Trim();
         password = password.Trim();
-        Validate(username, password);
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+        {
+            throw new Exception("Username or password are invalid");
+        }
         
         var existingUser = userRepository.GetByUsername(username);
         if (existingUser != null)
@@ -22,7 +25,10 @@ public class AuthService(UserRepository userRepository) : IAuthService
     {
         username = username.Trim();
         password = password.Trim();
-        Validate(username, password);
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+        {
+            throw new Exception("Username or password are invalid");
+        }
 
         var user = userRepository.GetByUsername(username);
         if (user == null || user.Password != password)
@@ -36,12 +42,5 @@ public class AuthService(UserRepository userRepository) : IAuthService
     {
         return userRepository.GetAllUsers();
     }
-    
-    private void Validate(string username, string password)
-    {
-        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
-        {
-            throw new Exception("Username or password are invalid");
-        }
-    }
+
 }
